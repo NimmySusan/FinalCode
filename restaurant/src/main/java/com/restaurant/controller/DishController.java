@@ -1,8 +1,11 @@
 package com.restaurant.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,6 +27,11 @@ public class DishController
 	public DishController(DishRepository dishRepository)
 	{
 	this.dishRepository = dishRepository;
+	}
+	@GetMapping("/restaurant/dish")
+	public ResponseEntity<List<Dish>> getAll()
+	{
+		return ResponseEntity.ok(dishRepository.findAll());
 	}
 	
 	@PutMapping("/restaurant/dish")
