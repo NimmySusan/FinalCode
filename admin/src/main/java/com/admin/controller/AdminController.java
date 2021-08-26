@@ -38,7 +38,7 @@ public class AdminController
 //		return ResponseEntity.ok(adminRepository.save(admin));
 //	}
 	
-	@PutMapping("/admin/restaurant/{rid}")
+	@RequestMapping("/admin/restaurant/{rid}")
 	public String approve(@PathVariable Long rid)
 	{
 		try
@@ -57,7 +57,7 @@ public class AdminController
 		return null;
 	}
 	
-	@DeleteMapping("/admin/restaurant/delete/{rid}")
+	@RequestMapping("/admin/restaurant/delete/{rid}")
 	public String delete(@PathVariable Long rid)
 	{
 		try
@@ -76,7 +76,7 @@ public class AdminController
 		return null;
 	}
 	
-	@GetMapping("/admin/allfeedback")
+	@RequestMapping("/admin/allfeedback")
 	public List feed()
 	{
 		try 
@@ -105,8 +105,8 @@ public class AdminController
 		return null;
 	}
 	
-	@GetMapping("/admin/status")
-	public List status()
+	@RequestMapping("/admin/status/{id}")
+	public List status(@PathVariable Long id)
 	{
 		try
 		{
@@ -114,15 +114,12 @@ public class AdminController
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3307/foodie?autoReconnect=true&useSSL=false","root","password");
 	        Statement stmt1=con.createStatement();
-	        ResultSet rs1=stmt1.executeQuery("select status,order_id from rorder");
-	        ResultSetMetaData rsmd = rs1.getMetaData();
-	        int count=rsmd.getColumnCount();
+	        ResultSet rs1=stmt1.executeQuery("select status from rorder where order_id="+id);
 	        if(rs1.next())
 	        {
-	        	for(int i=1;i<=count;i++)
-	        	{
-	        		al.add(rs1.getString(i));
-	        	}
+	        	
+	        		al.add(rs1.getString(1));
+	        	
 	        }
 	        return al;
 	        
@@ -134,12 +131,11 @@ public class AdminController
 		return null;
 	}
 	
-	@GetMapping("/admin/changestatus/{id}")
+	@RequestMapping("/admin/changestatus/{id}")
 	public String cstatus(@PathVariable Long id)
 	{
 		try
 		{
-			ArrayList al = new ArrayList();
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3307/foodie?autoReconnect=true&useSSL=false","root","password");
 	        Statement stmt1=con.createStatement();
